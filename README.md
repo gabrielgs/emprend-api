@@ -22,15 +22,15 @@ First you need get the source for this repository, then clone this from github i
 
 The repository have a **Dockerfile** for docker image build and a **docker-compose.yml** file for the services with docker. Please feel free to explore them.
 
-In the src folder are located all the files for the api to run, please don't changeit because the challenge is for frontend no to fix any bug on the api. If you find a bug, please send it on Issues Page: https://github.com/fakereto/emprend-api/issues/new
+In the src folder are located all the files for the api to run, please don't changeit because the challenge is for a frontend developer, no to fix any bug on the api. If you find a bug, please send it on Issues Page: https://github.com/fakereto/emprend-api/issues/new
 
 ### Runing the api
 
-To run the api for this challenge, plase to the next:
+To run the api for this challenge, do the next:
 
     docker-compose up
 
-This will get the enviorement configuration of the api, will build the image for docker api and execute the database, migrations and seed.
+This will get the environment configuration of the api, will build the image for docker api and execute the database, migrations and seed.
 
 Please be patient, this can take some minutes to download the base docker images, execute composer and other tasks.
 
@@ -38,4 +38,4 @@ After of the end of the task, now you can execute the browser for the page http:
 
 Here you will find the index page for the Api and one link to **API DOCS** or navigate to http://localhost:8000/storage/openapi.json on your browser. Here are the openapi documentation for api implementation.
 
-Now to here all are fine. Come to code and enjoy!
+Now to here all is fine. Come to code and enjoy!
