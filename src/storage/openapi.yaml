@@ -5,7 +5,7 @@ info:
 servers:
   - url: 'http://localhost:8000'
 paths:
-  /user/:
+  /api/user/:
     get:
       tags: 
         - user
@@ -20,7 +20,7 @@ paths:
                 $ref: '#/components/schemas/User'
         '422':
           description: The given data was invalid.
-  /user/comments:
+  /api/user/comments:
     get:
       tags: 
         - user
@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Comment'
+                $ref: '#/components/schemas/CommentCollection'
         '401':
           description: Unauthorized.
   /api/login:
@@ -126,7 +126,7 @@ paths:
       tags:
         - comments
       summary: Get comments
-      description: Get all apps comment registered
+      description: Get all apps comment registered paginated
       operationId: getComments
       responses:
         '200':
@@ -134,7 +134,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Comment'
+                $ref: '#/components/schemas/CommentCollectionPagination'
         '401':
           description: Unauthorized.
     post:
@@ -164,6 +164,29 @@ paths:
         '401':
           description: Unauthorized.
   /api/comments/{id}:
+    get:
+      tags:
+        - comments
+      summary: Get Comment
+      description: Get comment object by id
+      operationId: getComment
+      parameters:
+        - name: id
+          in: path
+          description: Comment Id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized.
     put:
       tags:
         - comments
@@ -198,6 +221,8 @@ paths:
                 $ref: '#/components/schemas/Comment'
         '401':
           description: Unauthorized.
+        '404':
+          description: Resource comment not found.
     delete:
       tags:
         - comments
@@ -218,7 +243,7 @@ paths:
         '401':
           description: Unauthorized.
         '404':
-          description: Resource not found.
+          description: Resource comment not found.
 components:
   securitySchemes:
     bearer:            #name for the security scheme
@@ -253,14 +278,73 @@ components:
       required:
         - body
       properties:
+        id: 
+          type: integer
         body:
+          type: string
+        user_id:
+          type: integer
+        created_at:
           type: string
         updated_at:
           type: string
-        created_at:
-          type: string
-        id: 
-          type: integer
       type: object
       xml:
         name: Comment
+    CommentCollection:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+      xml:
+        name: CommentCollection
+    LinksPagination:
+      properties:
+        first:
+          type: string
+          description: reference to first page of pagination
+        last:
+          type: string
+          description: reference to last page of pagination
+        prev:
+          type: string
+          description: reference to previous page of pagination
+        next:
+          type: string
+          description: reference to next page of pagination
+    MetaPagination:
+      properties:
+        current_page:
+          type: integer
+          description: Current page of pagination data
+        from:
+          type: integer
+          description: from init registry number returned
+        last_page:
+          type: integer
+          description: last page for pagination
+        path:
+          type: string
+          description: path of resource pagination returned
+        per_page:
+          type: integer
+          description: number of items returned
+        to: 
+          type: integer
+          description: number of registry data returned
+        total:
+          type: integer
+          description: total of registries on pagination
+    CommentCollectionPagination:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentCollection'
+        links: 
+          $ref: '#/components/schemas/LinksPagination'
+        meta:
+          $ref: '#/components/schemas/MetaPagination'
+      xml:
+        name: CommentCollectionPagination

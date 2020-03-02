@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Comment;
+
 use App\User;
+use App\Comment;
+use App\Http\Resources\Comment as CommentResource;
+use App\Http\Resources\CommentCollection;
 
 class CommentController extends Controller
 {
     public function index()
     {
-        return Comment::all();
+        return new CommentCollection(Comment::paginate());
     }
 
     public function show($id)

@@ -10,7 +10,7 @@
     }
   ],
   "paths": {
-    "/user/": {
+    "/api/user/": {
       "get": {
         "tags": [
           "user"
@@ -34,7 +34,7 @@
         }
       }
     },
-    "/user/comments": {
+    "/api/user/comments": {
       "get": {
         "tags": [
           "user"
@@ -47,7 +47,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Comment"
+                  "$ref": "#/components/schemas/CommentCollection"
                 }
               }
             }
@@ -193,7 +193,7 @@
           "comments"
         ],
         "summary": "Get comments",
-        "description": "Get all apps comment registered",
+        "description": "Get all apps comment registered paginated",
         "operationId": "getComments",
         "responses": {
           "200": {
@@ -201,7 +201,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Comment"
+                  "$ref": "#/components/schemas/CommentCollectionPagination"
                 }
               }
             }
@@ -253,6 +253,41 @@
       }
     },
     "/api/comments/{id}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get Comment",
+        "description": "Get comment object by id",
+        "operationId": "getComment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Comment Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      },
       "put": {
         "tags": [
           "comments"
@@ -302,6 +337,9 @@
           },
           "401": {
             "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Resource comment not found."
           }
         }
       },
@@ -332,7 +370,7 @@
             "description": "Unauthorized."
           },
           "404": {
-            "description": "Resource not found."
+            "description": "Resource comment not found."
           }
         }
       }
@@ -385,22 +423,109 @@
           "body"
         ],
         "properties": {
+          "id": {
+            "type": "integer"
+          },
           "body": {
             "type": "string"
           },
-          "updated_at": {
-            "type": "string"
+          "user_id": {
+            "type": "integer"
           },
           "created_at": {
             "type": "string"
           },
-          "id": {
-            "type": "integer"
+          "updated_at": {
+            "type": "string"
           }
         },
         "type": "object",
         "xml": {
           "name": "Comment"
+        }
+      },
+      "CommentCollection": {
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          }
+        },
+        "xml": {
+          "name": "CommentCollection"
+        }
+      },
+      "LinksPagination": {
+        "properties": {
+          "first": {
+            "type": "string",
+            "description": "reference to first page of pagination"
+          },
+          "last": {
+            "type": "string",
+            "description": "reference to last page of pagination"
+          },
+          "prev": {
+            "type": "string",
+            "description": "reference to previous page of pagination"
+          },
+          "next": {
+            "type": "string",
+            "description": "reference to next page of pagination"
+          }
+        }
+      },
+      "MetaPagination": {
+        "properties": {
+          "current_page": {
+            "type": "integer",
+            "description": "Current page of pagination data"
+          },
+          "from": {
+            "type": "integer",
+            "description": "from init registry number returned"
+          },
+          "last_page": {
+            "type": "integer",
+            "description": "last page for pagination"
+          },
+          "path": {
+            "type": "string",
+            "description": "path of resource pagination returned"
+          },
+          "per_page": {
+            "type": "integer",
+            "description": "number of items returned"
+          },
+          "to": {
+            "type": "integer",
+            "description": "number of registry data returned"
+          },
+          "total": {
+            "type": "integer",
+            "description": "total of registries on pagination"
+          }
+        }
+      },
+      "CommentCollectionPagination": {
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentCollection"
+            }
+          },
+          "links": {
+            "$ref": "#/components/schemas/LinksPagination"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaPagination"
+          }
+        },
+        "xml": {
+          "name": "CommentCollectionPagination"
         }
       }
     }
