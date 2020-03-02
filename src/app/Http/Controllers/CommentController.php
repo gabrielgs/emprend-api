@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Comment;
 use App\User;
@@ -26,17 +27,30 @@ class CommentController extends Controller
 
     public function update(Request $request, $id)
     {
-        $article = Comment::findOrFail($id);
-        $article->update($request->all());
+        try {
+            $article = Comment::findOrFail($id);
+            $article->update($request->all());
+            return $article;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Resource comment not found'
+            ], 404);
+        }
 
-        return $article;
     }
 
     public function delete(Request $request, $id)
     {
-        $article = Comment::findOrFail($id);
-        $article->delete();
-
-        return 200;
+        try {
+            $article = Comment::findOrFail($id);
+            $article->delete();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Resource comment not found'
+            ], 404);
+        }
+        return response()->json([
+            ''
+        ], 200);
     }
 }
