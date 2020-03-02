@@ -28,7 +28,7 @@ In the src folder are located all the files for the api to run, please don't cha
 
 To run the api for this challenge, do the next:
 
-    docker-compose up
+    docker-compose up -d
 
 This will get the environment configuration of the api, will build the image for docker api and execute the database, migrations and seed.
 
@@ -39,3 +39,16 @@ After of the end of the task, now you can execute the browser for the page http:
 Here you will find the index page for the Api and one link to **API DOCS** or navigate to http://localhost:8000/storage/openapi.json on your browser. Here are the openapi documentation for api implementation.
 
 Now to here all is fine. Come to code and enjoy!
+
+### Clean the enviorement
+
+For clean all the enviorement please stop the docker containers with the next command.
+
+    docker-compose down
+
+After stop the containers, this will be removed now please clean the images if you don't need anymore.
+
+    docker rmi fakereto/docker-phpnginx:latest
+    docker rmi mysql:5.7
+
+Now you also can delete the repo source.
