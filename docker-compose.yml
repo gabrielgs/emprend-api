@@ -3,11 +3,12 @@ services:
   api:
     build: .
     ports:
-    - "5000:80"
+    - "8000:80"
     volumes:
-    - ./api/:/var/www/app/
+    - ./src/:/var/www/app/
     links:
     - db
+    command: php artisan seed && /var/www/entrypoint.sh
   db:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
