@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Comment;
+use App\User;
 
 class CommentController extends Controller
 {
@@ -19,7 +21,7 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
-        return Comment::create($request->all());
+        return Auth::user()->commentUsers()->save(new Comment($request->all()));
     }
 
     public function update(Request $request, $id)

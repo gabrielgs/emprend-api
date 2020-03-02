@@ -8,6 +8,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user(); // instance of the logged user
 });
 
+Route::middleware('auth:api')->get('/user/comments', function (Request $request) {
+    $user = $request->user();
+    $comments = $user->comments;
+
+    return $comments;
+});
+
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('comments', 'CommentController@index');
     Route::get('comments/{id}', 'CommentController@show');

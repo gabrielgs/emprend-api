@@ -48,4 +48,8 @@ class User extends Authenticatable
 
         return $this->api_token;
     }
+
+    public function comments() {
+        return $this->hasMany('App\Comment');
+    }
 }
