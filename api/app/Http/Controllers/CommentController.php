@@ -21,7 +21,7 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
-        return Auth::user()->commentUsers()->save(new Comment($request->all()));
+        return Auth::user()->comments()->save(new Comment($request->all()));
     }
 
     public function update(Request $request, $id)

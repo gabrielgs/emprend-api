@@ -16,7 +16,7 @@ class CommentTest extends TestCase
         $token = $user->generateToken();
         $headers = ['Authorization' => "Bearer $token"];
         $payload = [
-            'body' => 'testsCommentAreCreatedCorrectly',
+            'body' => 'testsCommentAreCreatedCorrectly'
         ];
 
         $this->json('POST', '/api/comments', $payload, $headers)
@@ -31,6 +31,7 @@ class CommentTest extends TestCase
         $headers = ['Authorization' => "Bearer $token"];
         $comment = factory(Comment::class)->create([
             'body' => 'First Body',
+            'user_id' => $user->id
         ]);
 
         $payload = [
@@ -52,6 +53,7 @@ class CommentTest extends TestCase
         $headers = ['Authorization' => "Bearer $token"];
         $comment = factory(Comment::class)->create([
             'body' => 'First Body',
+            'user_id' => $user->id
         ]);
 
         $this->json('DELETE', '/api/comments/' . $comment->id, [], $headers)
@@ -60,17 +62,22 @@ class CommentTest extends TestCase
 
     public function testsCommentAreListedCorrectly()
     {
-        factory(Comment::class)->create([
-            'body' => 'First Comment'
-        ]);
-
-        factory(Comment::class)->create([
-            'body' => 'Second Comment'
-        ]);
 
         $user = factory(User::class)->create();
         $token = $user->generateToken();
         $headers = ['Authorization' => "Bearer $token"];
+
+        factory(Comment::class)->create([
+            'body' => 'First Comment',
+            'user_id' => $user->id
+        ]);
+
+        factory(Comment::class)->create([
+            'body' => 'Second Comment',
+            'user_id' => $user->id
+        ]);
+
+
 
         $response = $this->json('GET', '/api/comments', [], $headers)
             ->assertStatus(200)
