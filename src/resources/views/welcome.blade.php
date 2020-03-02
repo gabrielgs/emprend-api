@@ -72,7 +72,7 @@
 
                 <div class="links">
                     <a href="/storage/openapi.json">Api Docs</a>
-                    <a href="https://github.com/neubox/empredapi">GitHub</a>
+                    <a href="https://github.com/fakereto/emprend-api/">GitHub</a>
                  </div>
 
 
