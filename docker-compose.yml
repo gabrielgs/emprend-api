@@ -8,7 +8,8 @@ services:
     - ./src/:/var/www/app/
     links:
     - db
-    command: php artisan seed && /var/www/entrypoint.sh
+    depends_on:
+    - db
   db:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
