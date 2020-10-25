@@ -41,6 +41,8 @@ _main() {
         composer update
     fi
     #php artisan migrate
+    php artisan migrate
+    php artisan db:seed
     exec "$@"
 }
 
