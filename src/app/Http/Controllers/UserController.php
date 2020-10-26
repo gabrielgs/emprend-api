@@ -18,6 +18,11 @@ class UserController extends Controller
         return new UserResource(User::find($request->user()->id));
     }
 
+    public function show($id)
+    {
+        return User::find($id);
+    }
+
     public function userComments(Request $request)
     {
         $user = $request->user();

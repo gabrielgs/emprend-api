@@ -12,6 +12,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('comments/{id}', 'CommentController@delete');
 
     Route::get('user/', 'UserController@index');
+    Route::get('user/{id}', 'UserController@show');
     Route::get('user/comments', 'UserController@userComments');
 });
 
